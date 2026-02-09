@@ -1,4 +1,5 @@
 import math
+import random
 
 def area_rectangle(length, width):
     return length * width   
@@ -23,3 +24,19 @@ def print_distance_result(x1, y1, x2, y2, distance):
 
 
 # Exercise
+
+
+guess = 5
+
+def generate_random(min_num, max_num):
+    return random.randint(min_num, max_num)
+
+def compare_number(random_num):
+    if random_num < guess:
+        print("The number is smaller than the guess number")
+    elif random_num > guess:
+        print("The number is bigger than the guess number")
+    else:
+        print("Congratulations! You guessed the right number!")
+
+

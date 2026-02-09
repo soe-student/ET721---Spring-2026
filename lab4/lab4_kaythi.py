@@ -67,3 +67,26 @@ contacts.update({"Emily Davis": "718-888-0000"})
 print(f"Updated contacts: {contacts}")
 
 print("\n---Exercise---\n")
+# count_email_domains.py
+
+users = [
+    "peterpan@yahoo.com",
+    "annie@hotmail.com",
+    "Carl@hotmail.com",
+    "martha@gmail.com",
+    "cassie@yahoo.com",
+    "Josue@hotmail.com",
+    "John@hotmail.com"
+]
+
+counts = {"gmail": 0, "hotmail": 0, "yahoo": 0}
+
+for u in users:
+    if "gmail" in u:
+        counts["gmail"] += 1
+    elif "hotmail" in u:
+        counts["hotmail"] += 1
+    elif "yahoo" in u:
+        counts["yahoo"] += 1
+
+print(counts)

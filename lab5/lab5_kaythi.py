@@ -23,3 +23,6 @@ y2 = collectnum()
 print_distance_result(x1, y1, x2, y2, calculate_distance(x1, y1, x2, y2))
 
 print("\n---Exercise---\n")
+number = generate_random(1, 10)
+print("Random number:", number)
+compare_number(number)
