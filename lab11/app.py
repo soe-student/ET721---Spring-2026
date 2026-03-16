@@ -21,7 +21,7 @@ def about():
 
 @app.route('/quotes')
 def quotes():
-    return '<h1>Quotes</h1>'
+    return render_template('quote.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
