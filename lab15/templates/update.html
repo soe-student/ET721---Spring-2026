@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Updated Item</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <div class="page-wrapper center-page">
+      <div class="card result-card">
+        <p class="student-name">Created by {{ full_name }}</p>
+        <h1>Item Updated Successfully</h1>
+        <p><strong>Item Name:</strong> {{ item.name }}</p>
+        <p><strong>Item Price:</strong> ${{ item.price }}</p>
+        <a href="{{ url_for('home') }}" class="btn primary-btn link-btn">Back to Homepage</a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Item Manager</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <div class="card">
+        <p class="student-name">Created by {{ full_name }}</p>
+        <h1>{{ full_name }}</h1>
+        <p class="subtitle">Create, load, update, and delete your items.</p>
+
+        <form id="itemform" class="item-form">
+          <div class="form-group">
+            <label for="name">Item Name</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" id="price" name="price" required />
+          </div>
+
+          <div class="button-row">
+            <button type="submit" class="btn primary-btn">Create Item</button>
+            <button
+              type="button"
+              class="btn secondary-btn"
+              onclick="loadItems()"
+            >
+              Load Items
+            </button>
+          </div>
+
+          <p id="response" class="message"></p>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>All Items</h2>
+        <ul id="item-list" class="item-list"></ul>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById("itemform");
+      const responseMessage = document.getElementById("response");
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const price = document.getElementById("price").value.trim();
+
+        const response = await fetch("/create_item", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, price }),
+        });
+
+        const data = await response.json();
+        responseMessage.textContent = data.message;
+
+        if (response.ok) {
+          form.reset();
+          loadItems();
+        }
+      });
+
+      async function loadItems() {
+        const response = await fetch("/items");
+        const items = await response.json();
+
+        const itemList = document.querySelector("#item-list");
+        itemList.innerHTML = "";
+
+        if (items.length === 0) {
+          itemList.innerHTML = "<li class='empty-state'>No items found.</li>";
+          return;
+        }
+
+        items.forEach((item) => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+
+          li.innerHTML = `
+            <div>
+              <strong>Item ${item.id}</strong><br>
+              Name: ${item.name}<br>
+              Price: $${item.price}
+            </div>
+            <div class="action-buttons">
+              <button class="btn small-btn" onclick="updateItem(${item.id})">Update</button>
+              <button class="btn danger-btn small-btn" onclick="deleteItem(${item.id})">Delete</button>
+            </div>
+          `;
+
+          itemList.appendChild(li);
+        });
+      }
+
+      function updateItem(id) {
+        const newName = prompt("Enter new name:");
+        const newPrice = prompt("Enter new price:");
+
+        if (!newName || !newPrice) return;
+
+        window.location.href = `/update_item?id=${id}&name=${encodeURIComponent(newName)}&price=${encodeURIComponent(newPrice)}`;
+      }
+
+      function deleteItem(id) {
+        window.location.href = `/delete_item?id=${id}`;
+      }
+    </script>
+  </body>
+</html>

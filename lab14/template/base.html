@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mini Blog App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <head class="title">
+        <h1>{% block msg %}Welcome to Mini Blog App{% endblock %}</h1>
+
+    </head>
+    <main class="maincontainer">
+        {% block content %}
+        <p>This is a simple blog application built with Flask.</p>
+        {% endblock %}
+    </main>
+    <footer class="footer">
+        <p>&copy; 2026. By Soe Kaythi</p>
+
+</body>
+</html>

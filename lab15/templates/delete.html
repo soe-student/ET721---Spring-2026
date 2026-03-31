@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deleted Items</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Item Deleted Successfully</h1>
+      <p class="fullname">{{ full_name }}</p>
+
+      <div class="card">
+        <p><strong>Deleted Item Name:</strong> {{ item.name }}</p>
+        <p><strong>Deleted Item Price:</strong> {{ item.price }}</p>
+      </div>
+
+      <h2>Total Deleted Items</h2>
+
+      {% if deleted_items %}
+      <ul class="item-list">
+        {% for d in deleted_items %}
+        <li>
+          Deleted Item {{ d.id }} | Name = {{ d.name }} | Price = {{ d.price }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No deleted items yet.</p>
+      {% endif %}
+
+      <div class="buttons">
+        <button onclick="window.location.href = '/'">Back Home</button>
+      </div>
+    </div>
+  </body>
+</html>

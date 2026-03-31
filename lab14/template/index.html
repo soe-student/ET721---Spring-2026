@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block title %}Home - My blog{% endblock %} {% block
+msg %}Soe Kaythi's Blog{% endblock %} {% block content %}
+<h2 class="subtitle">Create a Post</h2>
+<form action="/add_blog" method="post">
+  <input type="text" name="username" placeholder="Type username" required />
+  <input type="text" name="email" placeholder="Type email" required />
+  <input type="text" name="title" placeholder="Type blog title" required />
+  <textarea
+    name="content"
+    placeholder="Write your blog content here..."
+    required
+  ></textarea>
+  <button type="submit">Submit Post</button>
+</form>
+
+{% endblock %}

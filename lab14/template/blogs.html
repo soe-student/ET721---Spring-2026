@@ -1,0 +1,11 @@
+{% extends 'base.html' %} {% block title %}Blogs - My blog{% endblock %} {%
+block msg %}Soe Kaythi's Blog{% endblock %} {% block content %} {% for blog in
+blogs %}
+<div class="blogseparator">
+  <h3>{{blog[2]}}</h3>
+  <p>
+    <strong>Author:</strong> {{blog[3]}} | <strong>Email:</strong> {{blog[4]}}
+  </p>
+  <p>{{blog[1]}}</p>
+</div>
+{% endfor %} {% endblock %}
