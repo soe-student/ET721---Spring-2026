@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, flash
 import sqlite3
 
 app = Flask(__name__)
@@ -24,19 +24,35 @@ def signup():
 @app.route("/signup", methods=["POST"])
 def signup_post():
     username = request.form["username"]
+    email = request.form["email"]
     password = request.form["password"]
 
     conn = get_db()
-    conn.execute(
-        "INSERT INTO users (username, password) VALUES (?, ?)",
-        (username, password)
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            "SELECT * FROM users WHERE username=? OR email=?",
+            (username, email)
+        )
+        existing_user = cursor.fetchone()
+        if existing_user:
+            flash("Username or Email already exists")
+            return redirect("/signup")
+    except Exception as e:
+        flash("An error occurred. Please try again.")
+        return redirect("/signup")
+
+    cursor.execute(
+        "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+        (username, email, password)
     )
     conn.commit()
     conn.close()
 
     return redirect("/")
 
-# HANDLE LOGIN
+# LOGIN Routing
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form["username"]
@@ -53,7 +69,7 @@ def login():
         session["user"] = username
         return redirect("/dashboard")
     else:
-        return "Login Failed"
+        flash("Invalid Email or Password")
 
 # DASHBOARD
 @app.route("/dashboard")

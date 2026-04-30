@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Image Uploader App</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Upload image by Soe Kaythi</h1>
+      <form
+        action="/"
+        method="POST"
+        enctype="multipart/form-data"
+        id="uploadForm"
+      >
+        <div class="upload-row">
+          <label for="fileInput" class="choose-btn">Choose File</label>
+          <input type="file" name="image" id="fileInput" accept="image/*" />
+          <input
+            type="text"
+            id="fileName"
+            placeholder="No file chosen"
+            readonly
+          />
+          <button type="submit" class="upload-btn">Upload</button>
+        </div>
+      </form>
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %} {% if success %}
+      <p class="success">{{ success }}</p>
+      {% endif %}
+      <h2>Gallery</h2>
+      <div class="gallery">
+        {% for image in images %}
+        <div class="gallery-item">
+          <img
+            src="{{ url_for('static', filename='uploads/' + image['filename']) }}"
+            alt="{{ image['filename'] }}"
+          />
+          <form action="/delete/{{ image['filename'] }}" method="POST">
+            <button type="submit" class="img-delete-btn">Delete</button>
+          </form>
+        </div>
+        {% else %}
+        <p class="no-images">No images uploaded yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+    <div id="deleteModal" class="modal-overlay" style="display: none">
+      <div class="modal">
+        <h3>Select an image to delete</h3>
+        <div class="modal-gallery" id="modalGallery"></div>
+        <p id="selectedLabel" class="selected-label">No image selected</p>
+        <div class="modal-actions">
+          <button class="confirm-btn" onclick="confirmDelete()">
+            Confirm Delete
+          </button>
+          <button class="cancel-btn" onclick="closeDeleteModal()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+    <script>
+      const allImages = {{ images | map(attribute='filename') | list | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='imguploader.js') }}"></script>
+  </body>
+</html>
